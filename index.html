@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ponto Eletrônico – EPC</title>
+
+<style>
+body{
+  font-family:'Segoe UI', sans-serif;
+  background:linear-gradient(135deg,#1e3a8a,#0f172a);
+  margin:0;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+  height:100vh;
+}
+
+.container{
+  background:#fff;
+  width:520px;
+  padding:40px;
+  border-radius:20px;
+  box-shadow:0 25px 50px rgba(0,0,0,0.3);
+  text-align:center;
+  animation:fadeIn 0.6s ease-in-out;
+}
+
+.logo{
+  width:110px;
+  margin-bottom:15px;
+}
+
+h2{
+  margin:10px 0 25px 0;
+  color:#1e293b;
+}
+
+select{
+  width:100%;
+  padding:14px;
+  border-radius:12px;
+  border:1px solid #ccc;
+  font-size:14px;
+  margin-bottom:20px;
+}
+
+button{
+  width:100%;
+  padding:14px;
+  border:none;
+  border-radius:12px;
+  font-weight:bold;
+  font-size:14px;
+  cursor:pointer;
+  margin-top:10px;
+  transition:0.2s;
+}
+
+.entrada{background:#16a34a;color:#fff;}
+.entrada:hover{background:#15803d;}
+
+.saida{background:#dc2626;color:#fff;}
+.saida:hover{background:#b91c1c;}
+
+.intervalo{background:#f59e0b;color:#fff;}
+.intervalo:hover{background:#d97706;}
+
+.status{
+  margin-top:20px;
+  font-weight:bold;
+  min-height:22px;
+}
+
+footer{
+  margin-top:25px;
+  color:#e2e8f0;
+  font-size:12px;
+  text-align:center;
+}
+
+@keyframes fadeIn{
+  from{opacity:0;transform:translateY(20px);}
+  to{opacity:1;transform:translateY(0);}
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<img src="epc.jpg" class="logo">
+
+<h2>Sistema de Ponto Eletrônico<br>Escola Presbiteriana do Coqueiro</h2>
+
+<select id="nomeColab">
+<option value="">Selecione o colaborador</option>
+<option>Abigail Tavares</option>
+<option>Alexssandro Ataide Pereira</option>
+<option>Amanda Carolina da Silva de Lima</option>
+<option>Andréia Coelho Oliveira Pereira</option>
+<option>Andressa Oliveira</option>
+<option>Arthur Santos</option>
+<option>Carolina Barros Almeida</option>
+<option>Danilly de Oliveira Guimarães</option>
+<option>Elisangela Queiroz de Almeida</option>
+<option>Felipe Silva</option>
+<option>Gustavo Sodré Figueiredo</option>
+<option>Isaque de Almeida Lobato</option>
+<option>Ivandro Almeida Barbosa</option>
+<option>Larissa Thais dos Reis França</option>
+<option>Letícia Muniz de Oliveira</option>
+<option>Lídia Maria Gonçalves da Silva</option>
+<option>Lorena Gladys Lima Silva</option>
+<option>Luiza Canavieira</option>
+<option>Maely da Silva e Silva</option>
+<option>Marcos Antonio Sales Filho</option>
+<option>Maria de Lourdes Gonçalves dos Santos</option>
+<option>Maria Pinheiro</option>
+<option>Mayara da Silva de Oliveira</option>
+<option>Natália Souza da Silva</option>
+<option>Nathalia dos Santos Costa</option>
+<option>Nathália Reis</option>
+<option>Paulo Roberto da Costa Barra</option>
+<option>Raimunda Nonata Menezes</option>
+<option>Raquel Ferreira Araújo da Conceição</option>
+<option>Regivana Gomes dos Santos de Souza</option>
+<option>Venilton Gomes Coelho</option>
+<option>Matheus Wanzeler Pinheiro</option>
+</select>
+
+<button class="entrada" onclick="registrar('ENTRADA')">Entrada</button>
+<button class="saida" onclick="registrar('SAÍDA')">Saída</button>
+<button class="intervalo" onclick="registrar('IDA - INTERVALO')">Ida - Intervalo</button>
+<button class="intervalo" onclick="registrar('VOLTA - INTERVALO')">Volta - Intervalo</button>
+
+<div id="msg" class="status"></div>
+
+</div>
+
+<footer>
+SISTEMA DESENVOLVIDO POR: Lucas Pinheiro - Seção de Serviços Técnicos (SST-EPC)
+</footer>
+
+<script>
+
+/* ===== COLE AQUI SEU LINK DO APPS SCRIPT ===== */
+const url = "https://script.google.com/macros/s/AKfycbzLCp5-reNtdGWOPK2d5wIDAIsP4c008DVeH-ctYOQS0Fd1MgfPDTifTguHubpjxrM/exec";
+
+/* ===== REGISTRAR DIRETO NA PLANILHA ===== */
+function registrar(tipo){
+
+  const nome = document.getElementById("nomeColab").value;
+  const msg = document.getElementById("msg");
+
+  if(!nome){
+    msg.style.color="red";
+    msg.innerText="Selecione o colaborador.";
+    return;
+  }
+
+  msg.style.color="#333";
+  msg.innerText="Registrando...";
+
+  const linkFinal = url +
+    "?nome=" + encodeURIComponent(nome) +
+    "&tipo=" + encodeURIComponent(tipo);
+
+  fetch(linkFinal)
+    .then(() => {
+      msg.style.color="green";
+      msg.innerText = tipo + " registrada com sucesso!";
+      document.getElementById("nomeColab").value="";
+    })
+    .catch(() => {
+      msg.style.color="red";
+      msg.innerText="Erro ao registrar.";
+    });
+
+}
+
+</script>
+
+</body>
+</html>
